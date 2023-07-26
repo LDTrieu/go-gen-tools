@@ -1,0 +1,17 @@
+version: "3.4"
+
+services:
+  generate_go:
+    image: gen-go
+    build:
+      context: ../
+      target: protoc_gen_go
+      dockerfile: ./developments/proto.Dockerfile
+
+    volumes:
+      - "../proto/:/proto/"
+      - "../pb/:/pb/"
+      - "../docs/:/go/docs/"
+      - "./gen-go.sh:/gen-go.sh"
+      - "../internal/models:/go/internal/models"
+    entrypoint: bash -c "chmod +x /gen-go.sh && /gen-go.sh"
